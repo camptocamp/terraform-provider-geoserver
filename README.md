@@ -49,4 +49,15 @@ provider geoserver {
 resource "geoserver_workspace" "foo" {
   name = "foo"
 }
+
+resource "geoserver_datastore" "default" {
+  workspace_name = geoserver_workspace.foo.name
+  name           = "default"
+  type           = "postgis"
+  host           = "pgmaster"
+  port           = "5432"
+  db_name        = "test"
+  db_user        = "postgres"
+  db_pass        = "postgres"
+}
 ```
