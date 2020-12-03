@@ -1,0 +1,5 @@
+services:
+  geoserver:
+    image: camptocamp/geoserver:jetty-2.17
+    ports:
+      - 8080:8080

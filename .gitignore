@@ -1,0 +1,3 @@
+tests/terraform.tfstate
+tests/terraform.tfstate.backup
+tests/.terraform/
