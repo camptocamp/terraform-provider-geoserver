@@ -36,8 +36,9 @@ func Provider() terraform.ResourceProvider {
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
-			"geoserver_workspace": resourceGeoserverWorkspace(),
-			"geoserver_datastore": resourceGeoserverDatastore(),
+			"geoserver_workspace":   resourceGeoserverWorkspace(),
+			"geoserver_datastore":   resourceGeoserverDatastore(),
+			"geoserver_featuretype": resourceGeoserverFeatureType(),
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{},

@@ -4,12 +4,15 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+
+	gs "github.com/camptocamp/go-geoserver/client"
 )
 
 func resourceGeoserverWorkspace() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceGeoserverWorkspaceCreate,
 		Read:   resourceGeoserverWorkspaceRead,
+		Update: resourceGeoserverWorkspaceUpdate,
 		Delete: resourceGeoserverWorkspaceDelete,
 		Importer: &schema.ResourceImporter{
 			State: resourceGeoserverWorkspaceImport,
@@ -21,11 +24,17 @@ func resourceGeoserverWorkspace() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			//"default": {
-			//	Type:     schema.TypeBool,
-			//	Optional: true,
-			//	Default:  false,
-			//},
+			"default": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+				ForceNew: true,
+			},
+			"isolated": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
 		},
 	}
 }
@@ -37,7 +46,10 @@ func resourceGeoserverWorkspaceCreate(d *schema.ResourceData, meta interface{}) 
 
 	name := d.Get("name").(string)
 
-	_, err := client.CreateWorkspace(name)
+	err := client.CreateWorkspace(&gs.Workspace{
+		Name:     name,
+		Isolated: d.Get("isolated").(bool),
+	}, d.Get("default").(bool))
 	if err != nil {
 		return err
 	}
@@ -58,6 +70,7 @@ func resourceGeoserverWorkspaceRead(d *schema.ResourceData, meta interface{}) er
 	}
 
 	d.Set("name", workspace.Name)
+	d.Set("isolated", workspace.Isolated)
 
 	return nil
 }
@@ -67,12 +80,28 @@ func resourceGeoserverWorkspaceDelete(d *schema.ResourceData, meta interface{}) 
 
 	client := meta.(*Config).Client()
 
-	_, err := client.DeleteWorkspace(d.Id(), true)
+	err := client.DeleteWorkspace(d.Id(), true)
 	if err != nil {
 		return err
 	}
 
 	d.SetId("")
+
+	return nil
+}
+
+func resourceGeoserverWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error {
+	log.Printf("[INFO] Updating Geoserver Workspace: %s", d.Id())
+
+	client := meta.(*Config).Client()
+
+	err := client.UpdateWorkspace(d.Id(), &gs.Workspace{
+		Name:     d.Get("name").(string),
+		Isolated: d.Get("isolated").(bool),
+	})
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

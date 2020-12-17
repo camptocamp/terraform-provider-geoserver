@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	gs "github.com/hishamkaram/geoserver"
+	gs "github.com/camptocamp/go-geoserver/client"
 )
 
 // Config is the configuration parameters for the Geoserver
@@ -17,16 +17,21 @@ type Config struct {
 }
 
 // Client creates a Geoserver client scoped to the global API
-func (c *Config) Client() *gs.GeoServer {
+func (c *Config) Client() *gs.Client {
 	tspt := &http.Transport{
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: c.InsecureSkipVerify,
 		},
 	}
 
-	client := gs.GetCatalog(c.URL, c.Username, c.Password)
-
-	client.HttpClient.Transport = tspt
+	client := &gs.Client{
+		URL:      c.URL,
+		Username: c.Username,
+		Password: c.Password,
+		HTTPClient: &http.Client{
+			Transport: tspt,
+		},
+	}
 
 	log.Printf("[INFO] Geoserver Client configured")
 
