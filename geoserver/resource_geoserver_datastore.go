@@ -98,8 +98,13 @@ func resourceGeoserverDatastoreRead(d *schema.ResourceData, meta interface{}) er
 	client := meta.(*Config).Client()
 
 	datastore, err := client.GetDatastore(workspaceName, datastoreName)
-	if err != nil {
+	if err != nil && err.Error() != "Not Found" {
 		return err
+	}
+
+	if datastore == nil {
+		d.SetId("")
+		return nil
 	}
 
 	d.Set("workspace_name", datastore.Workspace.Name)

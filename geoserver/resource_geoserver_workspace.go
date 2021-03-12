@@ -65,8 +65,13 @@ func resourceGeoserverWorkspaceRead(d *schema.ResourceData, meta interface{}) er
 	client := meta.(*Config).Client()
 
 	workspace, err := client.GetWorkspace(d.Id())
-	if err != nil {
+	if err != nil && err.Error() != "Not Found" {
 		return err
+	}
+
+	if workspace == nil {
+		d.SetId("")
+		return nil
 	}
 
 	d.Set("name", workspace.Name)
