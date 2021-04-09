@@ -144,6 +144,11 @@ func resourceGeoserverFeatureType() *schema.Resource {
 					},
 				},
 			},
+			"metadata": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Elem:     &schema.Schema{Type: schema.TypeString},
+			},
 		},
 	}
 }
@@ -168,6 +173,14 @@ func resourceGeoserverFeatureTypeCreate(d *schema.ResourceData, meta interface{}
 		})
 	}
 
+	var metadata []*gs.FeatureTypeMetadata
+	for key, value := range d.Get("metadata").(map[string]interface{}) {
+		metadata = append(metadata, &gs.FeatureTypeMetadata{
+			Key:   key,
+			Value: value.(string),
+		})
+	}
+
 	featureType := &gs.FeatureType{
 		Name:             d.Get("name").(string),
 		NativeName:       d.Get("native_name").(string),
@@ -175,7 +188,7 @@ func resourceGeoserverFeatureTypeCreate(d *schema.ResourceData, meta interface{}
 		ProjectionPolicy: d.Get("projection_policy").(string),
 		Title:            d.Get("title").(string),
 		Abstract:         d.Get("abstract").(string),
-		NativeCRS: gs.CRSWrapper{
+		NativeCRS: gs.FeatureTypeCRS{
 			Class: d.Get("native_crs_class").(string),
 			Value: d.Get("native_crs_value").(string),
 		},
@@ -185,7 +198,7 @@ func resourceGeoserverFeatureTypeCreate(d *schema.ResourceData, meta interface{}
 			MaxX: d.Get("native_bounding_box_max_x").(float64),
 			MinY: d.Get("native_bounding_box_min_y").(float64),
 			MaxY: d.Get("native_bounding_box_max_y").(float64),
-			CRS: gs.CRSWrapper{
+			CRS: gs.FeatureTypeCRS{
 				Class: d.Get("native_bounding_box_crs_class").(string),
 				Value: d.Get("native_bounding_box_crs_value").(string),
 			},
@@ -195,14 +208,13 @@ func resourceGeoserverFeatureTypeCreate(d *schema.ResourceData, meta interface{}
 			MaxX: d.Get("lat_lon_bounding_box_max_x").(float64),
 			MinY: d.Get("lat_lon_bounding_box_min_y").(float64),
 			MaxY: d.Get("lat_lon_bounding_box_max_y").(float64),
-			CRS: gs.CRSWrapper{
+			CRS: gs.FeatureTypeCRS{
 				Class: d.Get("lat_lon_bounding_box_crs_class").(string),
 				Value: d.Get("lat_lon_bounding_box_crs_value").(string),
 			},
 		},
-		Attributes: gs.FeatureTypeAttributesList{
-			Attribute: attributes,
-		},
+		Attributes: attributes,
+		Metadata:   metadata,
 	}
 
 	err := client.CreateFeatureType(workspaceName, datastoreName, featureType)
@@ -242,6 +254,9 @@ func resourceGeoserverFeatureTypeRead(d *schema.ResourceData, meta interface{}) 
 	d.Set("projection_policy", featureType.ProjectionPolicy)
 	d.Set("srs", featureType.SRS)
 
+	d.Set("native_crs_class", featureType.NativeCRS.Class)
+	d.Set("native_crs_value", featureType.NativeCRS.Value)
+
 	d.Set("native_bounding_box_min_x", featureType.NativeBoundingBox.MinX)
 	d.Set("native_bounding_box_max_x", featureType.NativeBoundingBox.MaxX)
 	d.Set("native_bounding_box_min_y", featureType.NativeBoundingBox.MinY)
@@ -257,7 +272,7 @@ func resourceGeoserverFeatureTypeRead(d *schema.ResourceData, meta interface{}) 
 	d.Set("lat_lon_bounding_box_crs_value", featureType.LatLonBoundingBox.CRS.Value)
 
 	var attributes []map[string]interface{}
-	for _, value := range featureType.Attributes.Attribute {
+	for _, value := range featureType.Attributes {
 		attributes = append(attributes, map[string]interface{}{
 			"name":       value.Name,
 			"nillable":   value.Nillable,
@@ -267,6 +282,14 @@ func resourceGeoserverFeatureTypeRead(d *schema.ResourceData, meta interface{}) 
 		})
 	}
 	d.Set("attribute", attributes)
+
+	metadata := map[string]interface{}{}
+	if featureType.Metadata != nil {
+		for _, entry := range featureType.Metadata {
+			metadata[entry.Key] = entry.Value
+		}
+		d.Set("metadata", metadata)
+	}
 
 	return nil
 }
@@ -313,6 +336,14 @@ func resourceGeoserverFeatureTypeUpdate(d *schema.ResourceData, meta interface{}
 		})
 	}
 
+	var metadata []*gs.FeatureTypeMetadata
+	for key, value := range d.Get("metadata").(map[string]interface{}) {
+		metadata = append(metadata, &gs.FeatureTypeMetadata{
+			Key:   key,
+			Value: value.(string),
+		})
+	}
+
 	featureType := &gs.FeatureType{
 		Name:             d.Get("name").(string),
 		NativeName:       d.Get("native_name").(string),
@@ -320,7 +351,7 @@ func resourceGeoserverFeatureTypeUpdate(d *schema.ResourceData, meta interface{}
 		ProjectionPolicy: d.Get("projection_policy").(string),
 		Title:            d.Get("title").(string),
 		Abstract:         d.Get("abstract").(string),
-		NativeCRS: gs.CRSWrapper{
+		NativeCRS: gs.FeatureTypeCRS{
 			Class: d.Get("native_crs_class").(string),
 			Value: d.Get("native_crs_value").(string),
 		},
@@ -330,7 +361,7 @@ func resourceGeoserverFeatureTypeUpdate(d *schema.ResourceData, meta interface{}
 			MaxX: d.Get("native_bounding_box_max_x").(float64),
 			MinY: d.Get("native_bounding_box_min_y").(float64),
 			MaxY: d.Get("native_bounding_box_max_y").(float64),
-			CRS: gs.CRSWrapper{
+			CRS: gs.FeatureTypeCRS{
 				Class: d.Get("native_bounding_box_crs_class").(string),
 				Value: d.Get("native_bounding_box_crs_value").(string),
 			},
@@ -340,14 +371,13 @@ func resourceGeoserverFeatureTypeUpdate(d *schema.ResourceData, meta interface{}
 			MaxX: d.Get("lat_lon_bounding_box_max_x").(float64),
 			MinY: d.Get("lat_lon_bounding_box_min_y").(float64),
 			MaxY: d.Get("lat_lon_bounding_box_max_y").(float64),
-			CRS: gs.CRSWrapper{
+			CRS: gs.FeatureTypeCRS{
 				Class: d.Get("lat_lon_bounding_box_crs_class").(string),
 				Value: d.Get("lat_lon_bounding_box_crs_value").(string),
 			},
 		},
-		Attributes: gs.FeatureTypeAttributesList{
-			Attribute: attributes,
-		},
+		Attributes: attributes,
+		Metadata:   metadata,
 	}
 
 	err := client.UpdateFeatureType(workspaceName, datastoreName, featureTypeName, featureType)

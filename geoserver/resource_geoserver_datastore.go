@@ -57,9 +57,9 @@ func resourceGeoserverDatastore() *schema.Resource {
 func resourceGeoserverDatastoreCreate(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Creating Geoserver Datastore: %s", d.Id())
 
-	entries := []*gs.DatastoreEntry{}
+	connectionParameters := []*gs.DatastoreConnectionParameter{}
 	for key, value := range d.Get("connection_params").(map[string]interface{}) {
-		entries = append(entries, &gs.DatastoreEntry{
+		connectionParameters = append(connectionParameters, &gs.DatastoreConnectionParameter{
 			Key:   key,
 			Value: value.(string),
 		})
@@ -69,13 +69,11 @@ func resourceGeoserverDatastoreCreate(d *schema.ResourceData, meta interface{}) 
 
 	workspaceName := d.Get("workspace_name").(string)
 	datastore := &gs.Datastore{
-		Name:        d.Get("name").(string),
-		Description: d.Get("description").(string),
-		Enabled:     d.Get("enabled").(bool),
-		Default:     d.Get("default").(bool),
-		ConnectionParameters: &gs.DatastoreConnectionParameters{
-			Entries: entries,
-		},
+		Name:                 d.Get("name").(string),
+		Description:          d.Get("description").(string),
+		Enabled:              d.Get("enabled").(bool),
+		Default:              d.Get("default").(bool),
+		ConnectionParameters: connectionParameters,
 	}
 
 	err := client.CreateDatastore(workspaceName, datastore)
@@ -113,12 +111,12 @@ func resourceGeoserverDatastoreRead(d *schema.ResourceData, meta interface{}) er
 	d.Set("enabled", datastore.Enabled)
 	d.Set("default", datastore.Default)
 
-	entries := map[string]string{}
-	for _, entry := range datastore.ConnectionParameters.Entries {
-		entries[entry.Key] = entry.Value
+	connectionParameters := map[string]string{}
+	for _, entry := range datastore.ConnectionParameters {
+		connectionParameters[entry.Key] = entry.Value
 	}
 
-	d.Set("connection_params", entries)
+	d.Set("connection_params", connectionParameters)
 
 	return nil
 }
@@ -149,9 +147,9 @@ func resourceGeoserverDatastoreUpdate(d *schema.ResourceData, meta interface{}) 
 	workspaceName := splittedID[0]
 	datastoreName := splittedID[1]
 
-	entries := []*gs.DatastoreEntry{}
+	connectionParameters := []*gs.DatastoreConnectionParameter{}
 	for key, value := range d.Get("connection_params").(map[string]interface{}) {
-		entries = append(entries, &gs.DatastoreEntry{
+		connectionParameters = append(connectionParameters, &gs.DatastoreConnectionParameter{
 			Key:   key,
 			Value: value.(string),
 		})
@@ -160,13 +158,11 @@ func resourceGeoserverDatastoreUpdate(d *schema.ResourceData, meta interface{}) 
 	client := meta.(*Config).Client()
 
 	err := client.UpdateDatastore(workspaceName, datastoreName, &gs.Datastore{
-		Name:        d.Get("name").(string),
-		Description: d.Get("description").(string),
-		Enabled:     d.Get("enabled").(bool),
-		Default:     d.Get("default").(bool),
-		ConnectionParameters: &gs.DatastoreConnectionParameters{
-			Entries: entries,
-		},
+		Name:                 d.Get("name").(string),
+		Description:          d.Get("description").(string),
+		Enabled:              d.Get("enabled").(bool),
+		Default:              d.Get("default").(bool),
+		ConnectionParameters: connectionParameters,
 	})
 	if err != nil {
 		return err
