@@ -32,6 +32,7 @@ func resourceGeoserverLayerGroup() *schema.Resource {
 			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Default:  "SINGLE",
 			},
 			"title": {
 				Type:     schema.TypeString,
