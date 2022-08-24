@@ -41,6 +41,7 @@ func Provider() terraform.ResourceProvider {
 			"geoserver_featuretype": resourceGeoserverFeatureType(),
 			"geoserver_style":       resourceGeoserverStyle(),
 			"geoserver_layergroup":  resourceGeoserverLayerGroup(),
+			"geoserver_resource":    resourceGeoserverResource(),
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{},
