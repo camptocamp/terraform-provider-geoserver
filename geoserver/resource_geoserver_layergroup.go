@@ -188,7 +188,7 @@ func resourceGeoserverLayerGroupRead(d *schema.ResourceData, meta interface{}) e
 	client := meta.(*Config).Client()
 
 	layerGroup, err := client.GetGroup(workspaceName, groupName)
-	if err != nil && err.Error() != "Not Found" {
+	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
 		return err
 	}
 

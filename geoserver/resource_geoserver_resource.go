@@ -60,7 +60,7 @@ func resourceGeoserverResourceRead(d *schema.ResourceData, meta interface{}) err
 	client := meta.(*Config).Client()
 
 	resourceContent, err := client.GetResource(resourcePath, resourceExt)
-	if err != nil && err.Error() != "Not Found" {
+	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
 		return err
 	}
 
