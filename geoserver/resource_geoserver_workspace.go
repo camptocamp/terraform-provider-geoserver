@@ -2,6 +2,7 @@ package geoserver
 
 import (
 	"log"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
@@ -65,7 +66,7 @@ func resourceGeoserverWorkspaceRead(d *schema.ResourceData, meta interface{}) er
 	client := meta.(*Config).Client()
 
 	workspace, err := client.GetWorkspace(d.Id())
-	if err != nil && err.Error() != "Not Found" {
+	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
 		return err
 	}
 

@@ -88,7 +88,7 @@ func resourceGeoserverStyleRead(d *schema.ResourceData, meta interface{}) error 
 	client := meta.(*Config).Client()
 
 	style, err := client.GetStyle(workspaceName, styleName)
-	if err != nil && err.Error() != "Not Found" {
+	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
 		return err
 	}
 

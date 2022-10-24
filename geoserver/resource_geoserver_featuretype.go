@@ -238,7 +238,7 @@ func resourceGeoserverFeatureTypeRead(d *schema.ResourceData, meta interface{}) 
 	client := meta.(*Config).Client()
 
 	featureType, err := client.GetFeatureType(workspaceName, datastoreName, featureTypeName)
-	if err != nil && err.Error() != "Not Found" {
+	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
 		return err
 	}
 
