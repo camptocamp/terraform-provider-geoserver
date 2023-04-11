@@ -171,6 +171,7 @@ func resourceGeoserverLayerGroupCreate(d *schema.ResourceData, meta interface{})
 
 	err := client.CreateGroup(workspaceName, layerGroup)
 	if err != nil {
+		client.DeleteGroup(workspaceName, d.Get("name").(string))
 		return err
 	}
 
