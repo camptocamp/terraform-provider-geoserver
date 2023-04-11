@@ -111,10 +111,10 @@ func resourceGwcWmsLayerCreate(d *schema.ResourceData, meta interface{}) error {
 		)
 	}
 
-	var gridSubsets []*gs.GridSubsets
+	var gridSubsets []*gs.GridSubset
 	for _, value := range d.Get("grid_subsets").([]interface{}) {
 		gridSubsets = append(gridSubsets,
-			gs.GridSubset{
+			&gs.GridSubset{
 				Name: value.(string),
 			},
 		)
@@ -129,7 +129,7 @@ func resourceGwcWmsLayerCreate(d *schema.ResourceData, meta interface{}) error {
 		Enabled:              d.Get("enabled").(bool),
 		InMemoryCached:       d.Get("in_memory_cached").(bool),
 		BlobStoreId:          d.Get("blobstore_id").(string),
-		MimeFormats:          &gs.MimeFormats{Formats: mimeFormats},
+		MimeFormats:          gs.MimeFormats{Formats: mimeFormats},
 		GridSubsets:          gridSubsets,
 		MetaTileDimensions:   metaTilesDimension,
 		ExpireCacheDuration:  d.Get("expire_duration_cache").(int),
@@ -141,7 +141,7 @@ func resourceGwcWmsLayerCreate(d *schema.ResourceData, meta interface{}) error {
 		WmsLayer:             d.Get("wms_layer").(string),
 	}
 
-	err := client.CreateGwcWmsLayer(wmsLayer)
+	err := client.CreateGwcWmsLayer(layerName, wmsLayer)
 	if err != nil {
 		return err
 	}
@@ -189,8 +189,8 @@ func resourceGwcWmsLayerRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("mime_formats", mimeFormats)
 
 	var gridsubsets []string
-	for _, value := range wmsLayer.GridSubsets.Name {
-		gridsubsets = append(gridsubsets, value)
+	for _, value := range wmsLayer.GridSubsets {
+		gridsubsets = append(gridsubsets, value.Name)
 	}
 	d.Set("grid_subsets", gridsubsets)
 
@@ -204,7 +204,7 @@ func resourceGwcWmsLayerDelete(d *schema.ResourceData, meta interface{}) error {
 
 	client := meta.(*Config).Client()
 
-	err := client.DeleteGwcWmsLayer(wmsLayerName, true)
+	err := client.DeleteGwcWmsLayer(wmsLayerName)
 	if err != nil {
 		return err
 	}
@@ -228,10 +228,10 @@ func resourceGwcWmsLayerUpdate(d *schema.ResourceData, meta interface{}) error {
 		)
 	}
 
-	var gridSubsets []*gs.GridSubsets
+	var gridSubsets []*gs.GridSubset
 	for _, value := range d.Get("grid_subsets").([]interface{}) {
 		gridSubsets = append(gridSubsets,
-			gs.GridSubset{
+			&gs.GridSubset{
 				Name: value.(string),
 			},
 		)
@@ -242,11 +242,11 @@ func resourceGwcWmsLayerUpdate(d *schema.ResourceData, meta interface{}) error {
 	metaTilesDimension = append(metaTilesDimension, d.Get("metatile_height").(int))
 
 	err := client.UpdateGwcWmsLayer(wmsLayerName, &gs.GwcWmsLayer{
-		Name:                 layerName,
+		Name:                 wmsLayerName,
 		Enabled:              d.Get("enabled").(bool),
 		InMemoryCached:       d.Get("in_memory_cached").(bool),
 		BlobStoreId:          d.Get("blobstore_id").(string),
-		MimeFormats:          &gs.MimeFormats{Formats: mimeFormats},
+		MimeFormats:          gs.MimeFormats{Formats: mimeFormats},
 		GridSubsets:          gridSubsets,
 		MetaTileDimensions:   metaTilesDimension,
 		ExpireCacheDuration:  d.Get("expire_duration_cache").(int),

@@ -124,12 +124,12 @@ func resourceGwcGridsetCreate(d *schema.ResourceData, meta interface{}) error {
 		TileWidth:         d.Get("tile_width").(int),
 		YCoordinateFirst:  d.Get("y_coordinate_first").(bool),
 		Extent:            []float64{d.Get("extent_min_x").(float64), d.Get("extent_min_y").(float64), d.Get("extent_max_x").(float64), d.Get("extent_max_y").(float64)},
-		ScaleNames:        &gs.ScaleNames{ScaleName: scaleNames},
-		ScaleDenominators: &gs.ScaleDenominators{ScaleDenominator: scaleDenominators},
-		Srs:               d.Get("srs").(int),
+		ScaleNames:        gs.ScaleNames{ScaleName: scaleNames},
+		ScaleDenominators: gs.ScaleDenominators{ScaleDenominator: scaleDenominators},
+		Srs:               gs.SRS{SrsNumber: d.Get("srs").(int)},
 	}
 
-	err := client.CreateGridset(gridset)
+	err := client.CreateGridset(gridsetName, gridset)
 	if err != nil {
 		return err
 	}
@@ -189,7 +189,7 @@ func resourceGwcGridsetDelete(d *schema.ResourceData, meta interface{}) error {
 
 	client := meta.(*Config).Client()
 
-	err := client.DeleteGridset(gridsetName, true)
+	err := client.DeleteGridset(gridsetName)
 	if err != nil {
 		return err
 	}
@@ -218,7 +218,7 @@ func resourceGwcGridsetUpdate(d *schema.ResourceData, meta interface{}) error {
 		)
 	}
 
-	err := client.UpdateGridset(&gs.Gridset{
+	err := client.UpdateGridset(gridsetName, &gs.Gridset{
 		Name:              gridsetName,
 		Description:       d.Get("description").(string),
 		AlignTopLeft:      d.Get("align_top_left").(bool),
@@ -228,9 +228,9 @@ func resourceGwcGridsetUpdate(d *schema.ResourceData, meta interface{}) error {
 		TileWidth:         d.Get("tile_width").(int),
 		YCoordinateFirst:  d.Get("y_coordinate_first").(bool),
 		Extent:            []float64{d.Get("extent_min_x").(float64), d.Get("extent_min_y").(float64), d.Get("extent_max_x").(float64), d.Get("extent_max_y").(float64)},
-		ScaleNames:        &gs.ScaleNames{ScaleName: scaleNames},
-		ScaleDenominators: &gs.ScaleDenominators{ScaleDenominator: scaleDenominators},
-		Srs:               d.Get("srs").(int),
+		ScaleNames:        gs.ScaleNames{ScaleName: scaleNames},
+		ScaleDenominators: gs.ScaleDenominators{ScaleDenominator: scaleDenominators},
+		Srs:               gs.SRS{SrsNumber: d.Get("srs").(int)},
 	})
 	if err != nil {
 		return err

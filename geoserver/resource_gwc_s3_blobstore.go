@@ -101,7 +101,7 @@ func resourceGwcS3BlobstoreCreate(d *schema.ResourceData, meta interface{}) erro
 		Default:        d.Get("default").(bool),
 	}
 
-	err := client.CreateBlobstoreS3(blobstore)
+	err := client.CreateBlobstoreS3(blobstoreName, blobstore)
 	if err != nil {
 		return err
 	}
@@ -151,7 +151,7 @@ func resourceGwcS3BlobstoreDelete(d *schema.ResourceData, meta interface{}) erro
 
 	client := meta.(*Config).Client()
 
-	err := client.DeleteBlobstoreS3(blobstoreID, true)
+	err := client.DeleteBlobstoreS3(blobstoreID)
 	if err != nil {
 		return err
 	}
@@ -168,7 +168,7 @@ func resourceGwcS3BlobstoreUpdate(d *schema.ResourceData, meta interface{}) erro
 
 	client := meta.(*Config).Client()
 
-	err := client.UpdateBlobstoreS3(&gs.BlobstoreS3{
+	err := client.UpdateBlobstoreS3(blobstoreID, &gs.BlobstoreS3{
 		Id:             blobstoreID,
 		Bucket:         d.Get("bucket").(string),
 		Prefix:         d.Get("prefix").(string),
@@ -181,7 +181,9 @@ func resourceGwcS3BlobstoreUpdate(d *schema.ResourceData, meta interface{}) erro
 		UseGzip:        d.Get("use_gzip").(bool),
 		Enabled:        d.Get("enabled").(bool),
 		Default:        d.Get("default").(bool),
-	})
+	},
+	)
+
 	if err != nil {
 		return err
 	}
