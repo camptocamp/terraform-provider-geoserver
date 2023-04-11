@@ -183,9 +183,8 @@ func resourceGwcWmsLayerRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("metatile_height", wmsLayer.MetaTileDimensions[1])
 
 	var mimeFormats []string
-	for _, value := range wmsLayer.MimeFormats.Formats {
-		mimeFormats = append(mimeFormats, value)
-	}
+	mimeFormats = append(mimeFormats, wmsLayer.MimeFormats.Formats...)
+
 	d.Set("mime_formats", mimeFormats)
 
 	var gridsubsets []string
