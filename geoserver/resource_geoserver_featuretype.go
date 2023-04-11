@@ -219,6 +219,7 @@ func resourceGeoserverFeatureTypeCreate(d *schema.ResourceData, meta interface{}
 
 	err := client.CreateFeatureType(workspaceName, datastoreName, featureType)
 	if err != nil {
+		client.DeleteFeatureType(workspaceName, datastoreName, d.Get("name").(string), true)
 		return err
 	}
 
