@@ -74,6 +74,8 @@ github.com/bgentry/speakeasy v0.1.0 h1:ByYyxL9InA1OWqxJqqp2A5pYHUrCiAL6K3J+LKSsQ
 github.com/bgentry/speakeasy v0.1.0/go.mod h1:+zsyZBPWlz7T6j88CTgSN5bM796AkVf0kBD4zp0CCIs=
 github.com/camptocamp/go-geoserver v0.0.0-20220824111235-a59739cbca06 h1:TOtHfX4C41UpxIp0FnSb+lkjJ3eub7VCsuVAubj36l8=
 github.com/camptocamp/go-geoserver v0.0.0-20220824111235-a59739cbca06/go.mod h1:z5s93Ll45psIP40hoVWpQPservcqeX4MOQDLV+Ys4rE=
+github.com/camptocamp/go-geoserver v0.0.0-20230411111416-017d2cbe6089 h1:p3ZWJgToWhzHI8f8uFcviv3Hi2sIirEv1fvnWz8n7ZY=
+github.com/camptocamp/go-geoserver v0.0.0-20230411111416-017d2cbe6089/go.mod h1:z5s93Ll45psIP40hoVWpQPservcqeX4MOQDLV+Ys4rE=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/cheggaaa/pb v1.0.27/go.mod h1:pQciLPpbU0oxA0h+VJYYLxO+XeDQb5pZijXscXHm81s=
 github.com/chzyer/logex v1.1.10/go.mod h1:+Ywpsq7O8HXn0nuIou7OrIPyXbp3wmkHB+jjWRnGsAI=
