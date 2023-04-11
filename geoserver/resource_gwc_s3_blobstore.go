@@ -83,7 +83,7 @@ func resourceGwcS3Blobstore() *schema.Resource {
 func resourceGwcS3BlobstoreCreate(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Creating GWC S3 Blobstore: %s", d.Id())
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GwcClient()
 
 	blobstoreName := d.Get("id").(string)
 	blobstore := &gs.BlobstoreS3{
@@ -116,7 +116,7 @@ func resourceGwcS3BlobstoreRead(d *schema.ResourceData, meta interface{}) error 
 
 	blobstoreID := d.Id()
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GwcClient()
 
 	blobstore, err := client.GetBlobstoreS3(blobstoreID)
 	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
@@ -149,7 +149,7 @@ func resourceGwcS3BlobstoreDelete(d *schema.ResourceData, meta interface{}) erro
 
 	blobstoreID := d.Id()
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GwcClient()
 
 	err := client.DeleteBlobstoreS3(blobstoreID)
 	if err != nil {
@@ -166,7 +166,7 @@ func resourceGwcS3BlobstoreUpdate(d *schema.ResourceData, meta interface{}) erro
 
 	blobstoreID := d.Id()
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GwcClient()
 
 	err := client.UpdateBlobstoreS3(blobstoreID, &gs.BlobstoreS3{
 		Id:             blobstoreID,

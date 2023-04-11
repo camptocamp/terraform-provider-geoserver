@@ -100,7 +100,7 @@ func resourceGwcWmsLayer() *schema.Resource {
 func resourceGwcWmsLayerCreate(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Creating GWC wms layer: %s", d.Id())
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GwcClient()
 
 	layerName := d.Get("name").(string)
 
@@ -156,7 +156,7 @@ func resourceGwcWmsLayerRead(d *schema.ResourceData, meta interface{}) error {
 
 	wmsLayerName := d.Id()
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GwcClient()
 
 	wmsLayer, err := client.GetGwcWMSLayer(wmsLayerName)
 	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
@@ -201,7 +201,7 @@ func resourceGwcWmsLayerDelete(d *schema.ResourceData, meta interface{}) error {
 
 	wmsLayerName := d.Id()
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GwcClient()
 
 	err := client.DeleteGwcWmsLayer(wmsLayerName)
 	if err != nil {
@@ -218,7 +218,7 @@ func resourceGwcWmsLayerUpdate(d *schema.ResourceData, meta interface{}) error {
 
 	wmsLayerName := d.Id()
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GwcClient()
 
 	var mimeFormats []string
 	for _, value := range d.Get("mime_formats").([]interface{}) {

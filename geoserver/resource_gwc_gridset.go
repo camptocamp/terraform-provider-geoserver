@@ -98,7 +98,7 @@ func resourceGwcGridset() *schema.Resource {
 func resourceGwcGridsetCreate(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Creating GWC gridset: %s", d.Id())
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GwcClient()
 
 	gridsetName := d.Get("name").(string)
 
@@ -144,7 +144,7 @@ func resourceGwcGridsetRead(d *schema.ResourceData, meta interface{}) error {
 
 	gridsetName := d.Id()
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GwcClient()
 
 	gridSet, err := client.GetGridset(gridsetName)
 	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
@@ -187,7 +187,7 @@ func resourceGwcGridsetDelete(d *schema.ResourceData, meta interface{}) error {
 
 	gridsetName := d.Id()
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GwcClient()
 
 	err := client.DeleteGridset(gridsetName)
 	if err != nil {
@@ -204,7 +204,7 @@ func resourceGwcGridsetUpdate(d *schema.ResourceData, meta interface{}) error {
 
 	gridsetName := d.Id()
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GwcClient()
 
 	var scaleNames []string
 	var scaleDenominators []float64

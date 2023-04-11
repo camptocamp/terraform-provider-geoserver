@@ -58,6 +58,7 @@ var descriptions map[string]string
 func init() {
 	descriptions = map[string]string{
 		"url":      "The Geoserver URL",
+		"gwc_url":  "The GeoWebCache URL",
 		"username": "Username to use for connection",
 		"password": "Password to use for connection",
 		"insecure": "Whether to verify the server's SSL certificate",
@@ -67,6 +68,7 @@ func init() {
 func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 	return &Config{
 		URL:                d.Get("url").(string),
+		GwcURL:             d.Get("gwc_url").(string),
 		Username:           d.Get("username").(string),
 		Password:           d.Get("password").(string),
 		InsecureSkipVerify: d.Get("insecure").(bool),

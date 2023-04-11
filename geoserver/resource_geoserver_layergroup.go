@@ -116,7 +116,7 @@ func resourceGeoserverLayerGroup() *schema.Resource {
 func resourceGeoserverLayerGroupCreate(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Creating Geoserver LayerGroup: %s", d.Id())
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	workspaceName := d.Get("workspace_name").(string)
 
@@ -186,7 +186,7 @@ func resourceGeoserverLayerGroupRead(d *schema.ResourceData, meta interface{}) e
 	workspaceName := splittedID[0]
 	groupName := splittedID[1]
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	layerGroup, err := client.GetGroup(workspaceName, groupName)
 	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
@@ -248,7 +248,7 @@ func resourceGeoserverLayerGroupDelete(d *schema.ResourceData, meta interface{})
 	workspaceName := splittedID[0]
 	layerGroupName := splittedID[1]
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	err := client.DeleteGroup(workspaceName, layerGroupName)
 	if err != nil {
@@ -266,7 +266,7 @@ func resourceGeoserverLayerGroupUpdate(d *schema.ResourceData, meta interface{})
 	splittedID := strings.Split(d.Id(), "/")
 	workspaceName := splittedID[0]
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	var metadatas []*gs.MetadataLink
 	for _, value := range d.Get("metadatalink").(*schema.Set).List() {

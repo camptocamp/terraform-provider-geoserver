@@ -65,7 +65,7 @@ func resourceGeoserverDatastoreCreate(d *schema.ResourceData, meta interface{}) 
 		})
 	}
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	workspaceName := d.Get("workspace_name").(string)
 	datastore := &gs.Datastore{
@@ -93,7 +93,7 @@ func resourceGeoserverDatastoreRead(d *schema.ResourceData, meta interface{}) er
 	workspaceName := splittedID[0]
 	datastoreName := splittedID[1]
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	datastore, err := client.GetDatastore(workspaceName, datastoreName)
 	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
@@ -128,7 +128,7 @@ func resourceGeoserverDatastoreDelete(d *schema.ResourceData, meta interface{}) 
 	workspaceName := splittedID[0]
 	datastoreName := splittedID[1]
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	err := client.DeleteDatastore(workspaceName, datastoreName, true)
 	if err != nil {
@@ -155,7 +155,7 @@ func resourceGeoserverDatastoreUpdate(d *schema.ResourceData, meta interface{}) 
 		})
 	}
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	err := client.UpdateDatastore(workspaceName, datastoreName, &gs.Datastore{
 		Name:                 d.Get("name").(string),

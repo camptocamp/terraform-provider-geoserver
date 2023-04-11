@@ -52,7 +52,7 @@ func resourceGeoserverStyle() *schema.Resource {
 func resourceGeoserverStyleCreate(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Creating Geoserver Style: %s", d.Id())
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	workspaceName := d.Get("workspace_name").(string)
 
@@ -85,7 +85,7 @@ func resourceGeoserverStyleRead(d *schema.ResourceData, meta interface{}) error 
 	workspaceName := splittedID[0]
 	styleName := splittedID[1]
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	style, err := client.GetStyle(workspaceName, styleName)
 	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
@@ -119,7 +119,7 @@ func resourceGeoserverStyleDelete(d *schema.ResourceData, meta interface{}) erro
 	workspaceName := splittedID[0]
 	styleName := splittedID[1]
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	err := client.DeleteStyle(workspaceName, styleName, true, true)
 	if err != nil {
@@ -137,7 +137,7 @@ func resourceGeoserverStyleUpdate(d *schema.ResourceData, meta interface{}) erro
 	splittedID := strings.Split(d.Id(), "/")
 	workspaceName := splittedID[0]
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	style := &gs.Style{
 		Name:     d.Get("name").(string),
