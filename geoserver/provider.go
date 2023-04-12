@@ -13,7 +13,13 @@ func Provider() terraform.ResourceProvider {
 				Type:        schema.TypeString,
 				Optional:    true,
 				DefaultFunc: schema.EnvDefaultFunc("GEOSERVER_URL", ""),
-				Description: descriptions["url"],
+				Description: descriptions["geoserver url"],
+			},
+			"gwc_url": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("GEOWEBCACHE_URL", ""),
+				Description: descriptions["geowebcache url"],
 			},
 			"username": {
 				Type:        schema.TypeString,

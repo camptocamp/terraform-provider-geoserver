@@ -20,7 +20,7 @@ func resourceGwcS3Blobstore() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"id": {
+			"blobstore_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -85,7 +85,7 @@ func resourceGwcS3BlobstoreCreate(d *schema.ResourceData, meta interface{}) erro
 
 	client := meta.(*Config).GwcClient()
 
-	blobstoreName := d.Get("id").(string)
+	blobstoreName := d.Get("blobstore_id").(string)
 	blobstore := &gs.BlobstoreS3{
 		Id:             blobstoreName,
 		Bucket:         d.Get("bucket").(string),
@@ -128,7 +128,7 @@ func resourceGwcS3BlobstoreRead(d *schema.ResourceData, meta interface{}) error 
 		return nil
 	}
 
-	d.Set("id", blobstore.Id)
+	d.Set("blobstore_id", blobstore.Id)
 	d.Set("bucket", blobstore.Bucket)
 	d.Set("prefix", blobstore.Prefix)
 	d.Set("bucket_access_key", blobstore.AwsAccessKey)
@@ -195,7 +195,7 @@ func resourceGwcS3BlobstoreImport(d *schema.ResourceData, meta interface{}) ([]*
 	blobstoreID := d.Id()
 
 	d.SetId(d.Id())
-	d.Set("id", blobstoreID)
+	d.Set("blobstore_id", blobstoreID)
 
 	log.Printf("[INFO] Importing GWC S3 Blobstore `%s`", blobstoreID)
 
