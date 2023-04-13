@@ -63,11 +63,6 @@ func resourceGwcWmsLayer() *schema.Resource {
 				Optional: true,
 				Default:  true,
 			},
-			"in_memory_cached": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  true,
-			},
 			"allow_cache_bypass": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -127,7 +122,6 @@ func resourceGwcWmsLayerCreate(d *schema.ResourceData, meta interface{}) error {
 	wmsLayer := &gs.GwcWmsLayer{
 		Name:                 layerName,
 		Enabled:              d.Get("enabled").(bool),
-		InMemoryCached:       d.Get("in_memory_cached").(bool),
 		BlobStoreId:          d.Get("blobstore_id").(string),
 		MimeFormats:          gs.MimeFormats{Formats: mimeFormats},
 		GridSubsets:          gridSubsets,
@@ -170,7 +164,6 @@ func resourceGwcWmsLayerRead(d *schema.ResourceData, meta interface{}) error {
 
 	d.Set("name", wmsLayerName)
 	d.Set("enabled", wmsLayer.Enabled)
-	d.Set("in_memory_cached", wmsLayer.InMemoryCached)
 	d.Set("blobstore_id", wmsLayer.BlobStoreId)
 	d.Set("expire_duration_cache", wmsLayer.ExpireCacheDuration)
 	d.Set("expire_duration_clients", wmsLayer.ExpireClientDuration)
@@ -243,7 +236,6 @@ func resourceGwcWmsLayerUpdate(d *schema.ResourceData, meta interface{}) error {
 	err := client.UpdateGwcWmsLayer(wmsLayerName, &gs.GwcWmsLayer{
 		Name:                 wmsLayerName,
 		Enabled:              d.Get("enabled").(bool),
-		InMemoryCached:       d.Get("in_memory_cached").(bool),
 		BlobStoreId:          d.Get("blobstore_id").(string),
 		MimeFormats:          gs.MimeFormats{Formats: mimeFormats},
 		GridSubsets:          gridSubsets,
