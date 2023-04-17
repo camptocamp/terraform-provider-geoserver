@@ -38,7 +38,7 @@ func resourceGeoserverResource() *schema.Resource {
 func resourceGeoserverResourceCreate(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Creating Geoserver Resource: %s", d.Id())
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	err := client.CreateResource(d.Get("path").(string), d.Get("extension").(string), d.Get("resource").(string))
 	if err != nil {
@@ -57,7 +57,7 @@ func resourceGeoserverResourceRead(d *schema.ResourceData, meta interface{}) err
 	resourcePath := splittedID[0]
 	resourceExt := splittedID[1]
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	resourceContent, err := client.GetResource(resourcePath, resourceExt)
 	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
@@ -78,7 +78,7 @@ func resourceGeoserverResourceDelete(d *schema.ResourceData, meta interface{}) e
 	resourcePath := splittedID[0]
 	resourceExt := splittedID[1]
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	err := client.DeleteResource(fmt.Sprintf("%s.%s", resourcePath, resourceExt))
 	if err != nil {
@@ -93,7 +93,7 @@ func resourceGeoserverResourceDelete(d *schema.ResourceData, meta interface{}) e
 func resourceGeoserverResourceUpdate(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Updating Geoserver Resource: %s", d.Id())
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 	err := client.UpdateResource(d.Get("path").(string), d.Get("extension").(string), d.Get("resource").(string))
 	if err != nil {
 		return err

@@ -13,7 +13,13 @@ func Provider() terraform.ResourceProvider {
 				Type:        schema.TypeString,
 				Optional:    true,
 				DefaultFunc: schema.EnvDefaultFunc("GEOSERVER_URL", ""),
-				Description: descriptions["url"],
+				Description: descriptions["geoserver url"],
+			},
+			"gwc_url": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("GEOWEBCACHE_URL", ""),
+				Description: descriptions["geowebcache url"],
 			},
 			"username": {
 				Type:        schema.TypeString,
@@ -36,12 +42,15 @@ func Provider() terraform.ResourceProvider {
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
-			"geoserver_workspace":   resourceGeoserverWorkspace(),
-			"geoserver_datastore":   resourceGeoserverDatastore(),
-			"geoserver_featuretype": resourceGeoserverFeatureType(),
-			"geoserver_style":       resourceGeoserverStyle(),
-			"geoserver_layergroup":  resourceGeoserverLayerGroup(),
-			"geoserver_resource":    resourceGeoserverResource(),
+			"geoserver_workspace":        resourceGeoserverWorkspace(),
+			"geoserver_datastore":        resourceGeoserverDatastore(),
+			"geoserver_featuretype":      resourceGeoserverFeatureType(),
+			"geoserver_style":            resourceGeoserverStyle(),
+			"geoserver_layergroup":       resourceGeoserverLayerGroup(),
+			"geoserver_resource":         resourceGeoserverResource(),
+			"geoserver_gwc_S3_blobstore": resourceGwcS3Blobstore(),
+			"geoserver_gwc_gridset":      resourceGwcGridset(),
+			"geoserver_gwc_wms_layer":    resourceGwcWmsLayer(),
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{},
@@ -55,6 +64,7 @@ var descriptions map[string]string
 func init() {
 	descriptions = map[string]string{
 		"url":      "The Geoserver URL",
+		"gwc_url":  "The GeoWebCache URL",
 		"username": "Username to use for connection",
 		"password": "Password to use for connection",
 		"insecure": "Whether to verify the server's SSL certificate",
@@ -64,6 +74,7 @@ func init() {
 func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 	return &Config{
 		URL:                d.Get("url").(string),
+		GwcURL:             d.Get("gwc_url").(string),
 		Username:           d.Get("username").(string),
 		Password:           d.Get("password").(string),
 		InsecureSkipVerify: d.Get("insecure").(bool),

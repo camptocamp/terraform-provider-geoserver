@@ -43,7 +43,7 @@ func resourceGeoserverWorkspace() *schema.Resource {
 func resourceGeoserverWorkspaceCreate(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Creating Geoserver Workspace: %s", d.Id())
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	name := d.Get("name").(string)
 
@@ -63,7 +63,7 @@ func resourceGeoserverWorkspaceCreate(d *schema.ResourceData, meta interface{}) 
 func resourceGeoserverWorkspaceRead(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Refreshing Geoserver Workspace: %s", d.Id())
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	workspace, err := client.GetWorkspace(d.Id())
 	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
@@ -84,7 +84,7 @@ func resourceGeoserverWorkspaceRead(d *schema.ResourceData, meta interface{}) er
 func resourceGeoserverWorkspaceDelete(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Deleting Geoserver Workspace: %s", d.Id())
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	err := client.DeleteWorkspace(d.Id(), true)
 	if err != nil {
@@ -99,7 +99,7 @@ func resourceGeoserverWorkspaceDelete(d *schema.ResourceData, meta interface{}) 
 func resourceGeoserverWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Updating Geoserver Workspace: %s", d.Id())
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	err := client.UpdateWorkspace(d.Id(), &gs.Workspace{
 		Name:     d.Get("name").(string),

@@ -156,7 +156,7 @@ func resourceGeoserverFeatureType() *schema.Resource {
 func resourceGeoserverFeatureTypeCreate(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Creating Geoserver FeatureType: %s", d.Id())
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	workspaceName := d.Get("workspace_name").(string)
 	datastoreName := d.Get("datastore_name").(string)
@@ -219,6 +219,7 @@ func resourceGeoserverFeatureTypeCreate(d *schema.ResourceData, meta interface{}
 
 	err := client.CreateFeatureType(workspaceName, datastoreName, featureType)
 	if err != nil {
+		client.DeleteFeatureType(workspaceName, datastoreName, d.Get("name").(string), true)
 		return err
 	}
 
@@ -235,7 +236,7 @@ func resourceGeoserverFeatureTypeRead(d *schema.ResourceData, meta interface{}) 
 	datastoreName := splittedID[1]
 	featureTypeName := splittedID[2]
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	featureType, err := client.GetFeatureType(workspaceName, datastoreName, featureTypeName)
 	if err != nil && !strings.Contains(strings.ToLower(err.Error()), "not found") {
@@ -302,7 +303,7 @@ func resourceGeoserverFeatureTypeDelete(d *schema.ResourceData, meta interface{}
 	datastoreName := splittedID[1]
 	featureTypeName := splittedID[2]
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	err := client.DeleteFeatureType(workspaceName, datastoreName, featureTypeName, true)
 	if err != nil {
@@ -322,7 +323,7 @@ func resourceGeoserverFeatureTypeUpdate(d *schema.ResourceData, meta interface{}
 	datastoreName := splittedID[1]
 	featureTypeName := splittedID[2]
 
-	client := meta.(*Config).Client()
+	client := meta.(*Config).GeoserverClient()
 
 	var attributes []*gs.FeatureTypeAttribute
 	for _, value := range d.Get("attribute").(*schema.Set).List() {
