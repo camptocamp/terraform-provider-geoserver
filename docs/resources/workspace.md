@@ -17,12 +17,12 @@ description: |-
 
 ### Required
 
-- `name` (String)
+- `name` (String) Name of the workspace. Use as resource id.
 
 ### Optional
 
-- `default` (Boolean)
-- `isolated` (Boolean)
+- `default` (Boolean) Declare the workspace as default workspace. Default value: false.
+- `isolated` (Boolean) Declare the workspace as isolated workspace. Default value: false.
 
 ### Read-Only
 

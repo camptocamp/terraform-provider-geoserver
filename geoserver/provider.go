@@ -11,25 +11,25 @@ func Provider() terraform.ResourceProvider {
 		Schema: map[string]*schema.Schema{
 			"url": {
 				Type:        schema.TypeString,
-				Optional:    true,
+				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("GEOSERVER_URL", ""),
-				Description: descriptions["geoserver url"],
+				Description: descriptions["url"],
 			},
 			"gwc_url": {
 				Type:        schema.TypeString,
-				Optional:    true,
+				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("GEOWEBCACHE_URL", ""),
-				Description: descriptions["geowebcache url"],
+				Description: descriptions["gwc_url"],
 			},
 			"username": {
 				Type:        schema.TypeString,
-				Optional:    true,
+				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("GEOSERVER_USERNAME", ""),
 				Description: descriptions["username"],
 			},
 			"password": {
 				Type:        schema.TypeString,
-				Optional:    true,
+				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("GEOSERVER_PASSWORD", ""),
 				Description: descriptions["password"],
 			},
