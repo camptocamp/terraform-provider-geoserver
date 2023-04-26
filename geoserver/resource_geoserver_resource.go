@@ -20,16 +20,19 @@ func resourceGeoserverResource() *schema.Resource {
 
 		Schema: map[string]*schema.Schema{
 			"path": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "Path of the resource in the GeoServer data_dir.",
 			},
 			"extension": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "Extension of the resource.",
 			},
 			"resource": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "Content of the resource.",
 			},
 		},
 	}
