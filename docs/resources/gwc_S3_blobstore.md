@@ -30,21 +30,21 @@ resource "geoserver_gwc_S3_blobstore" "s3_blobstore" {
 
 ### Required
 
-- `blobstore_id` (String)
-- `bucket` (String)
-- `bucket_access_key` (String)
-- `bucket_secret_key` (String)
+- `blobstore_id` (String) Identifier of the blobstore. Use as resource id.
+- `bucket` (String) Bucket used by the blobstore.
+- `bucket_access_key` (String) Access key to the bucket.
+- `bucket_secret_key` (String) Secret key associated to the access key.
 
 ### Optional
 
-- `access_type` (String)
-- `default` (Boolean)
-- `enabled` (Boolean)
-- `endpoint` (String)
-- `max_connections` (Number)
-- `prefix` (String)
-- `use_gzip` (Boolean)
-- `use_https` (Boolean)
+- `access_type` (String) Access type to the bucket. Could be PUBLIC or PRIVATE. Default is PUBLIC
+- `default` (Boolean) Is the blobstore the default one? Default to false.
+- `enabled` (Boolean) Is the blobstore enabled? Default to true.
+- `endpoint` (String) End-point to use to access the bucket, when not using AWS S3
+- `max_connections` (Number) Maximum number of parallel connections. Default to 50.
+- `prefix` (String) Prefix to add to the path for storing the tiles. Default is empty
+- `use_gzip` (Boolean) Compress tiles with gzip. Default to false.
+- `use_https` (Boolean) Use https to contact the S3 bucket. Default to false.
 
 ### Read-Only
 

@@ -46,23 +46,23 @@ resource "geoserver_gwc_wms_layer" "nexsis_fdp_osm" {
 
 ### Required
 
-- `blobstore_id` (String)
-- `grid_subsets` (List of String)
-- `metatile_height` (Number)
-- `metatile_width` (Number)
-- `mime_formats` (List of String)
-- `name` (String)
-- `wms_layer` (String)
-- `wms_url` (String)
+- `blobstore_id` (String) Blobstore to use for storing the tiles.
+- `grid_subsets` (List of String) List of the grids supported for this cache.
+- `metatile_height` (Number) Height of the meta tiles.
+- `metatile_width` (Number) Width of the meta tiles.
+- `mime_formats` (List of String) List of the mime formats upported for this cache.
+- `name` (String) Name of the cache layer. Use as resource id.
+- `wms_layer` (String) Identifier of the layer to cache.
+- `wms_url` (String) URL of the server hosting the WMS.
 
 ### Optional
 
-- `allow_cache_bypass` (Boolean)
-- `backend_timeout` (Number)
-- `enabled` (Boolean)
-- `expire_duration_cache` (Number)
-- `expire_duration_clients` (Number)
-- `gutter_size` (Number)
+- `allow_cache_bypass` (Boolean) Allow bypass of the cache. Default to false.
+- `backend_timeout` (Number) Timeout of the backend. Default to 120.
+- `enabled` (Boolean) Is the layer cache enabled? Default to true.
+- `expire_duration_cache` (Number) Server cache expire duration. Default to 0.
+- `expire_duration_clients` (Number) Client cache expire duration. Default to 0.
+- `gutter_size` (Number) Size of the gutter to use for the meta-tiles. Default to 0.
 
 ### Read-Only
 

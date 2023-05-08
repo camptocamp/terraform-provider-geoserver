@@ -146,19 +146,19 @@ resource "geoserver_gwc_gridset" "gridset_3857" {
 - `extent_max_y` (Number)
 - `extent_min_x` (Number)
 - `extent_min_y` (Number)
-- `meters_per_unit` (Number)
-- `name` (String)
-- `pixel_size` (Number)
-- `scales` (Block List, Min: 1) (see [below for nested schema](#nestedblock--scales))
-- `srs` (Number)
-- `tile_height` (Number)
-- `tile_width` (Number)
+- `meters_per_unit` (Number) Conversion to/from meter
+- `name` (String) Name of the gridset. Use as resource id.
+- `pixel_size` (Number) Resolution
+- `scales` (Block List, Min: 1) Scales of the set. (see [below for nested schema](#nestedblock--scales))
+- `srs` (Number) Identifier of the SRS
+- `tile_height` (Number) Hauteur d'une tuile
+- `tile_width` (Number) Largeur d'une tuile
 
 ### Optional
 
-- `align_top_left` (Boolean)
+- `align_top_left` (Boolean) Is the top left corner aligned? Default to true.
 - `description` (String)
-- `y_coordinate_first` (Boolean)
+- `y_coordinate_first` (Boolean) Does the Y coordinate come first? Default to true.
 
 ### Read-Only
 
@@ -169,7 +169,7 @@ resource "geoserver_gwc_gridset" "gridset_3857" {
 
 Required:
 
-- `denominator` (Number)
-- `name` (String)
+- `denominator` (Number) Scale denominator
+- `name` (String) Name of the level (0,1,2,...)
 
 
