@@ -21,28 +21,34 @@ func resourceGwcGridset() *schema.Resource {
 
 		Schema: map[string]*schema.Schema{
 			"name": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "Name of the gridset. Use as resource id.",
 			},
 			"meters_per_unit": {
-				Type:     schema.TypeFloat,
-				Required: true,
+				Type:        schema.TypeFloat,
+				Required:    true,
+				Description: "Conversion to/from meter",
 			},
 			"pixel_size": {
-				Type:     schema.TypeFloat,
-				Required: true,
+				Type:        schema.TypeFloat,
+				Required:    true,
+				Description: "Resolution",
 			},
 			"tile_height": {
-				Type:     schema.TypeInt,
-				Required: true,
+				Type:        schema.TypeInt,
+				Required:    true,
+				Description: "Hauteur d'une tuile",
 			},
 			"tile_width": {
-				Type:     schema.TypeInt,
-				Required: true,
+				Type:        schema.TypeInt,
+				Required:    true,
+				Description: "Largeur d'une tuile",
 			},
 			"srs": {
-				Type:     schema.TypeInt,
-				Required: true,
+				Type:        schema.TypeInt,
+				Required:    true,
+				Description: "Identifier of the SRS",
 			},
 			"description": {
 				Type:     schema.TypeString,
@@ -50,27 +56,32 @@ func resourceGwcGridset() *schema.Resource {
 				Default:  "",
 			},
 			"align_top_left": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  true,
+				Type:        schema.TypeBool,
+				Optional:    true,
+				Default:     true,
+				Description: "Is the top left corner aligned? Default to true.",
 			},
 			"y_coordinate_first": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  true,
+				Type:        schema.TypeBool,
+				Optional:    true,
+				Default:     true,
+				Description: "Does the Y coordinate come first? Default to true.",
 			},
 			"scales": {
-				Type:     schema.TypeList,
-				Required: true,
+				Type:        schema.TypeList,
+				Required:    true,
+				Description: "Scales of the set.",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"name": {
-							Type:     schema.TypeString,
-							Required: true,
+							Type:        schema.TypeString,
+							Required:    true,
+							Description: "Name of the level (0,1,2,...)",
 						},
 						"denominator": {
-							Type:     schema.TypeFloat,
-							Required: true,
+							Type:        schema.TypeFloat,
+							Required:    true,
+							Description: "Scale denominator",
 						},
 					},
 				},

@@ -22,28 +22,34 @@ func resourceGeoserverStyle() *schema.Resource {
 
 		Schema: map[string]*schema.Schema{
 			"workspace_name": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Name of the workspace owning the style. Used to compute the id of the resource.",
 			},
 			"name": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "Name of the style. Used to compute the id of the resource.",
 			},
 			"filename": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "Name of the file describing the style.",
 			},
 			"format": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Format of the style. Must match one of the style format installed on your geoserver instance.",
 			},
 			"version": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Version of the format. Only used for a SLD format.",
 			},
 			"style_definition": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "Definition of the style. Can be either an inline definition or an external file.",
 			},
 		},
 	}
