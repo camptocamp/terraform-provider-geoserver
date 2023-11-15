@@ -51,6 +51,8 @@ func Provider() terraform.ResourceProvider {
 			"geoserver_gwc_S3_blobstore": resourceGwcS3Blobstore(),
 			"geoserver_gwc_gridset":      resourceGwcGridset(),
 			"geoserver_gwc_wms_layer":    resourceGwcWmsLayer(),
+			"geoserver_wms_store":        resourceGeoserverWmsStore(),
+			"geoserver_wms_layere":       resourceGeoserverWmsLayer(),
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{},
