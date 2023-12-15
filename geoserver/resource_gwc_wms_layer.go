@@ -40,6 +40,24 @@ func resourceGwcWmsLayer() *schema.Resource {
 				Required:    true,
 				Description: "Identifier of the layer to cache.",
 			},
+			"wms_version": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Default:     "1.3.0",
+				Description: "WMS version to use when requesting service. Default to 1.3.0",
+			},
+			"vendor_parameters": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Default:     "",
+				Description: "Additional vendor parameters to the service.",
+			},
+			"background_color": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Default:     "",
+				Description: "Background color when requesting maps.",
+			},
 			"mime_formats": {
 				Type:        schema.TypeList,
 				Required:    true,
@@ -48,12 +66,25 @@ func resourceGwcWmsLayer() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-			"grid_subsets": {
-				Type:        schema.TypeList,
+			"grid_subset": {
+				Type:        schema.TypeSet,
 				Required:    true,
 				Description: "List of the grids supported for this cache.",
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"max_cached_level": {
+							Type:     schema.TypeInt,
+							Optional: true,
+						},
+						"min_cached_level": {
+							Type:     schema.TypeInt,
+							Optional: true,
+						},
+					},
 				},
 			},
 			"metatile_height": {
@@ -102,6 +133,12 @@ func resourceGwcWmsLayer() *schema.Resource {
 				Default:     120,
 				Description: "Timeout of the backend. Default to 120.",
 			},
+			"transparent": {
+				Type:        schema.TypeBool,
+				Optional:    true,
+				Default:     true,
+				Description: "Request tiles with transparent background? Default to true.",
+			},
 		},
 	}
 }
@@ -121,12 +158,22 @@ func resourceGwcWmsLayerCreate(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	var gridSubsets []*gs.GridSubset
-	for _, value := range d.Get("grid_subsets").([]interface{}) {
-		gridSubsets = append(gridSubsets,
-			&gs.GridSubset{
-				Name: value.(string),
-			},
-		)
+	for _, value := range d.Get("grid_subset").(*schema.Set).List() {
+		v := value.(map[string]interface{})
+		gridSubset := &gs.GridSubset{
+			Name: v["name"].(string),
+		}
+
+		minCacheLevel, ok := v["min_cached_level"]
+		if ok {
+			gridSubset.MinCacheLevel = minCacheLevel.(int)
+		}
+		maxCacheLevel, ok2 := v["max_cached_level"]
+		if ok2 {
+			gridSubset.MaxCacheLevel = maxCacheLevel.(int)
+		}
+
+		gridSubsets = append(gridSubsets, gridSubset)
 	}
 
 	var metaTilesDimension []int
@@ -147,6 +194,10 @@ func resourceGwcWmsLayerCreate(d *schema.ResourceData, meta interface{}) error {
 		CacheBypassAllowed:   d.Get("allow_cache_bypass").(bool),
 		WmsUrl:               d.Get("wms_url").(string),
 		WmsLayer:             d.Get("wms_layer").(string),
+		Transparent:          d.Get("transparent").(bool),
+		WmsVersion:           d.Get("wms_version").(string),
+		BgColor:              d.Get("background_color").(string),
+		VendorParameters:     d.Get("vendor_parameters").(string),
 	}
 
 	err := client.CreateGwcWmsLayer(layerName, wmsLayer)
@@ -186,6 +237,10 @@ func resourceGwcWmsLayerRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("allow_cache_bypass", wmsLayer.CacheBypassAllowed)
 	d.Set("wms_url", wmsLayer.WmsUrl)
 	d.Set("wms_layer", wmsLayer.WmsLayer)
+	d.Set("wms_version", wmsLayer.WmsVersion)
+	d.Set("vendor_parameters", wmsLayer.VendorParameters)
+	d.Set("background_color", wmsLayer.BgColor)
+	d.Set("transparent", wmsLayer.Transparent)
 	d.Set("metatile_width", wmsLayer.MetaTileDimensions[0])
 	d.Set("metatile_height", wmsLayer.MetaTileDimensions[1])
 
@@ -194,10 +249,15 @@ func resourceGwcWmsLayerRead(d *schema.ResourceData, meta interface{}) error {
 
 	d.Set("mime_formats", mimeFormats)
 
-	var gridsubsets []string
+	var gridsubsets []map[string]interface{}
 	for _, value := range wmsLayer.GridSubsets {
-		gridsubsets = append(gridsubsets, value.Name)
+		gridsubsets = append(gridsubsets, map[string]interface{}{
+			"name":             value.Name,
+			"min_cached_level": value.MinCacheLevel,
+			"max_cached_level": value.MaxCacheLevel,
+		})
 	}
+
 	d.Set("grid_subsets", gridsubsets)
 
 	return nil
@@ -235,12 +295,22 @@ func resourceGwcWmsLayerUpdate(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	var gridSubsets []*gs.GridSubset
-	for _, value := range d.Get("grid_subsets").([]interface{}) {
-		gridSubsets = append(gridSubsets,
-			&gs.GridSubset{
-				Name: value.(string),
-			},
-		)
+	for _, value := range d.Get("grid_subset").(*schema.Set).List() {
+		v := value.(map[string]interface{})
+		gridSubset := &gs.GridSubset{
+			Name: v["name"].(string),
+		}
+
+		minCacheLevel, ok := v["min_cached_level"]
+		if ok {
+			gridSubset.MinCacheLevel = minCacheLevel.(int)
+		}
+		maxCacheLevel, ok2 := v["max_cached_level"]
+		if ok2 {
+			gridSubset.MaxCacheLevel = maxCacheLevel.(int)
+		}
+
+		gridSubsets = append(gridSubsets, gridSubset)
 	}
 
 	var metaTilesDimension []int
@@ -261,6 +331,10 @@ func resourceGwcWmsLayerUpdate(d *schema.ResourceData, meta interface{}) error {
 		CacheBypassAllowed:   d.Get("allow_cache_bypass").(bool),
 		WmsUrl:               d.Get("wms_url").(string),
 		WmsLayer:             d.Get("wms_layer").(string),
+		Transparent:          d.Get("transparent").(bool),
+		WmsVersion:           d.Get("wms_version").(string),
+		BgColor:              d.Get("background_color").(string),
+		VendorParameters:     d.Get("vendor_parameters").(string),
 	})
 	if err != nil {
 		return err
