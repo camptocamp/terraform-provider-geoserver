@@ -258,7 +258,7 @@ func resourceGwcWmsLayerRead(d *schema.ResourceData, meta interface{}) error {
 		})
 	}
 
-	d.Set("grid_subsets", gridsubsets)
+	d.Set("grid_subset", gridsubsets)
 
 	return nil
 }

@@ -34,92 +34,114 @@ func resourceGeoserverWmsLayer() *schema.Resource {
 			"name": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"native_name": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  true,
+				ForceNew: true,
 			},
 			"projection_policy": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"title": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"abstract": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"native_crs_class": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"native_crs_value": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"srs": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"native_bounding_box_min_x": {
 				Type:     schema.TypeFloat,
 				Optional: true,
+				ForceNew: true,
 			},
 			"native_bounding_box_max_x": {
 				Type:     schema.TypeFloat,
 				Optional: true,
+				ForceNew: true,
 			},
 			"native_bounding_box_min_y": {
 				Type:     schema.TypeFloat,
 				Optional: true,
+				ForceNew: true,
 			},
 			"native_bounding_box_max_y": {
 				Type:     schema.TypeFloat,
 				Optional: true,
+				ForceNew: true,
 			},
 			"native_bounding_box_crs_class": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"native_bounding_box_crs_value": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"lat_lon_bounding_box_min_x": {
 				Type:     schema.TypeFloat,
 				Optional: true,
+				ForceNew: true,
 			},
 			"lat_lon_bounding_box_max_x": {
 				Type:     schema.TypeFloat,
 				Optional: true,
+				ForceNew: true,
 			},
 			"lat_lon_bounding_box_min_y": {
 				Type:     schema.TypeFloat,
 				Optional: true,
+				ForceNew: true,
 			},
 			"lat_lon_bounding_box_max_y": {
 				Type:     schema.TypeFloat,
 				Optional: true,
+				ForceNew: true,
 			},
 			"lat_lon_bounding_box_crs_class": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"lat_lon_bounding_box_crs_value": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"metadata": {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Elem:     &schema.Schema{Type: schema.TypeString},
+				ForceNew: true,
 			},
 		},
 	}
