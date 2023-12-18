@@ -14,7 +14,7 @@ func resourceGeoserverWmsLayer() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceGeoserverWmsLayerCreate,
 		Read:   resourceGeoserverWmsLayerRead,
-		Update: resourceGeoserverWmsLayerUpdate,
+		//		Update: resourceGeoserverWmsLayerUpdate,
 		Delete: resourceGeoserverWmsLayerDelete,
 		Importer: &schema.ResourceImporter{
 			State: resourceGeoserverWmsLayerImport,
