@@ -116,6 +116,10 @@ func resourceGeoserverFeatureType() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"use_custom_attributes": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"attribute": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -224,6 +228,7 @@ func resourceGeoserverFeatureTypeCreate(d *schema.ResourceData, meta interface{}
 	}
 
 	d.SetId(fmt.Sprintf("%s/%s/%s", workspaceName, datastoreName, d.Get("name").(string)))
+	d.Set("use_custom_attributes", len(attributes) > 0)
 
 	return resourceGeoserverFeatureTypeRead(d, meta)
 }
@@ -273,16 +278,18 @@ func resourceGeoserverFeatureTypeRead(d *schema.ResourceData, meta interface{}) 
 	d.Set("lat_lon_bounding_box_crs_value", featureType.LatLonBoundingBox.CRS.Value)
 
 	var attributes []map[string]interface{}
-	for _, value := range featureType.Attributes {
-		attributes = append(attributes, map[string]interface{}{
-			"name":       value.Name,
-			"nillable":   value.Nillable,
-			"binding":    value.Binding,
-			"min_occurs": value.MinOccurs,
-			"max_occurs": value.MaxOccurs,
-		})
+	if d.Get("use_custom_attributes").(bool) {
+		for _, value := range featureType.Attributes {
+			attributes = append(attributes, map[string]interface{}{
+				"name":       value.Name,
+				"nillable":   value.Nillable,
+				"binding":    value.Binding,
+				"min_occurs": value.MinOccurs,
+				"max_occurs": value.MaxOccurs,
+			})
+		}
+		d.Set("attribute", attributes)
 	}
-	d.Set("attribute", attributes)
 
 	metadata := map[string]interface{}{}
 	if featureType.Metadata != nil {
@@ -399,6 +406,7 @@ func resourceGeoserverFeatureTypeImport(d *schema.ResourceData, meta interface{}
 	d.Set("workspace_name", workspaceName)
 	d.Set("datastore_name", datastoreName)
 	d.Set("name", featureTypeName)
+	d.Set("use_custom_attributes", true)
 
 	log.Printf("[INFO] Importing Geoserver FeatureType `%s` in workspace `%s`", datastoreName, workspaceName)
 
