@@ -1,7 +1,5 @@
 module github.com/camptocamp/terraform-provider-geoserver
 
-replace github.com/camptocamp/go-geoserver => /home/agacon/camptocamp/go-geoserver
-
 go 1.15
 
 require (
