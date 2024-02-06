@@ -158,7 +158,7 @@ func resourceGeoserverFeatureType() *schema.Resource {
 }
 
 func resourceGeoserverFeatureTypeCreate(d *schema.ResourceData, meta interface{}) error {
-	log.Printf("[INFO] Creating Geoserver FeatureType: %s", d.Id())
+	log.Printf("[INFO] Creating Geoserver FeatureType: %s", d.Get("name").(string))
 
 	client := meta.(*Config).GeoserverClient()
 
@@ -388,7 +388,8 @@ func resourceGeoserverFeatureTypeUpdate(d *schema.ResourceData, meta interface{}
 		Metadata:   metadata,
 	}
 
-	err := client.UpdateFeatureType(workspaceName, datastoreName, featureTypeName, featureType)
+	sync_attributes := !d.Get("use_custom_attributes").(bool)
+	err := client.UpdateFeatureType(workspaceName, datastoreName, featureTypeName, featureType, sync_attributes)
 	if err != nil {
 		return err
 	}
