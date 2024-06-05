@@ -17,6 +17,41 @@ type Config struct {
 	InsecureSkipVerify bool
 }
 
+func CreateConfig(URL string,
+	GwcURL string,
+	Username string,
+	Password string,
+	InsecureSkipVerify bool) (interface{}, error) {
+	// test GeoServer URL
+	if len(URL) > 0 {
+		_, err := http.Get(URL)
+		if err != nil {
+			log.Print(err.Error())
+			return nil, err
+		}
+	} else {
+		log.Printf("[INFO] No GeoServer URL configured")
+	}
+
+	// test GWC URL
+	if len(GwcURL) > 0 {
+		_, err := http.Get(GwcURL)
+		if err != nil {
+			log.Print(err.Error())
+			return nil, err
+		}
+	} else {
+		log.Printf("[INFO] No GeoWebCache URL configured")
+	}
+	return &Config{
+		URL:                URL,
+		GwcURL:             GwcURL,
+		Username:           Username,
+		Password:           Password,
+		InsecureSkipVerify: InsecureSkipVerify,
+	}, nil
+}
+
 // GeoserverClient creates a Geoserver client scoped to the global API
 func (c *Config) GeoserverClient() *gs.Client {
 	tspt := &http.Transport{
