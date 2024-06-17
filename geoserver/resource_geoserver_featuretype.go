@@ -314,28 +314,27 @@ func resourceGeoserverFeatureTypeDelete(d *schema.ResourceData, meta interface{}
 
 	layer, errget := client.GetLayer(workspaceName, featureTypeName)
 	if layer != nil {
+		log.Printf("[INFO] Deleting Geoserver Layer for: %s", d.Id())
+
 		// If there is a matching layer into geoserver, delete it first
 		err1 := client.DeleteLayer(workspaceName, featureTypeName, true)
 		if err1 != nil {
 			return err1
 		}
 
-		err2 := client.DeleteFeatureType(workspaceName, datastoreName, featureTypeName, false)
-		if err2 != nil {
-			return err2
-		}
 	} else if errget.Error() == "not found" {
+		log.Printf("[INFO] No Layer found for: %s", d.Id())
 		// If not, delete only the feature type
 		err2 := client.DeleteFeatureType(workspaceName, datastoreName, featureTypeName, true)
 		if err2 != nil {
 			return err2
 		}
 	} else {
+		log.Printf("[INFO] Erreur détectée: %s", d.Id())
 		return errget
 	}
 
 	d.SetId("")
-
 	return nil
 }
 
