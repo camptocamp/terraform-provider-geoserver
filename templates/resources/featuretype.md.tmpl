@@ -1,0 +1,23 @@
+---
+page_title: "{{.Name}} {{.Type}} - {{.ProviderName}}"
+subcategory: ""
+description: |-
+{{ .Description | plainmarkdown | trimspace | prefixlines "  " }}
+---
+
+# {{.Name}} ({{.Type}})
+
+{{ .Description | trimspace }}
+
+## Example Usage
+
+### Example without custom attributes
+{{ tffile (printf "examples/resources/%s/example_00.tf" .Name)}}
+
+### Example with SQL View
+{{ tffile (printf "examples/resources/%s/example_01.tf" .Name)}}
+
+### Example with custom attributes
+{{ tffile (printf "examples/resources/%s/example_02.tf" .Name)}}
+
+{{ .SchemaMarkdown | trimspace }}

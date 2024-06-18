@@ -47,7 +47,7 @@ resource "geoserver_gwc_wms_layer" "nexsis_fdp_osm" {
 ### Required
 
 - `blobstore_id` (String) Blobstore to use for storing the tiles.
-- `grid_subsets` (List of String) List of the grids supported for this cache.
+- `grid_subset` (Block Set, Min: 1) List of the grids supported for this cache. (see [below for nested schema](#nestedblock--grid_subset))
 - `metatile_height` (Number) Height of the meta tiles.
 - `metatile_width` (Number) Width of the meta tiles.
 - `mime_formats` (List of String) List of the mime formats upported for this cache.
@@ -59,13 +59,29 @@ resource "geoserver_gwc_wms_layer" "nexsis_fdp_osm" {
 
 - `allow_cache_bypass` (Boolean) Allow bypass of the cache. Default to false.
 - `backend_timeout` (Number) Timeout of the backend. Default to 120.
+- `background_color` (String) Background color when requesting maps.
 - `enabled` (Boolean) Is the layer cache enabled? Default to true.
 - `expire_duration_cache` (Number) Server cache expire duration. Default to 0.
 - `expire_duration_clients` (Number) Client cache expire duration. Default to 0.
 - `gutter_size` (Number) Size of the gutter to use for the meta-tiles. Default to 0.
+- `transparent` (Boolean) Request tiles with transparent background? Default to true.
+- `vendor_parameters` (String) Additional vendor parameters to the service.
+- `wms_version` (String) WMS version to use when requesting service. Default to 1.3.0
 
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+
+<a id="nestedblock--grid_subset"></a>
+### Nested Schema for `grid_subset`
+
+Required:
+
+- `name` (String)
+
+Optional:
+
+- `max_cached_level` (Number)
+- `min_cached_level` (Number)
 
 

@@ -1,0 +1,25 @@
+---
+page_title: "{{.Name}} {{.Type}} - {{.ProviderName}}"
+subcategory: ""
+description: |-
+{{ .Description | plainmarkdown | trimspace | prefixlines "  " }}
+---
+
+# {{.Name}} ({{.Type}})
+
+{{ .Description | trimspace }}
+
+## Example Usage
+
+### Example of a datastore for pregeneralized features
+{{ tffile (printf "examples/resources/%s/example_00.tf" .Name)}}
+
+### Example of JNDI based datastore
+{{ tffile (printf "examples/resources/%s/example_01.tf" .Name)}}
+
+### Example of a JDBC based datastore
+
+Credentials are provided through terraform variables
+{{ tffile (printf "examples/resources/%s/example_02.tf" .Name)}}
+
+{{ .SchemaMarkdown | trimspace }}
