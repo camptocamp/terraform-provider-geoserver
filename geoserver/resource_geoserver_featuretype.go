@@ -330,7 +330,6 @@ func resourceGeoserverFeatureTypeDelete(d *schema.ResourceData, meta interface{}
 			return err2
 		}
 	} else {
-		log.Printf("[INFO] Erreur détectée: %s", d.Id())
 		return errget
 	}
 
