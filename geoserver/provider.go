@@ -54,6 +54,7 @@ func Provider() terraform.ResourceProvider {
 			"geoserver_gwc_wms_layer":      resourceGwcWmsLayer(),
 			"geoserver_wms_store":          resourceGeoserverWmsStore(),
 			"geoserver_wms_layer":          resourceGeoserverWmsLayer(),
+			"geoserver_url_check":          resourceGeoserverUrlCheck(),
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{},
