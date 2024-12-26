@@ -144,11 +144,11 @@ func resourceGwcWmsLayer() *schema.Resource {
 }
 
 func resourceGwcWmsLayerCreate(d *schema.ResourceData, meta interface{}) error {
-	log.Printf("[INFO] Creating GWC wms layer: %s", d.Id())
+	layerName := d.Get("name").(string)
+
+	log.Printf("[INFO] Creating GWC wms layer: %s", layerName)
 
 	client := meta.(*Config).GwcClient()
-
-	layerName := d.Get("name").(string)
 
 	var mimeFormats []string
 	for _, value := range d.Get("mime_formats").([]interface{}) {
