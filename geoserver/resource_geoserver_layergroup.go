@@ -246,6 +246,7 @@ func resourceGeoserverLayerGroupRead(d *schema.ResourceData, meta interface{}) e
 		layers = append(layers, map[string]interface{}{
 			"name":  value.Name,
 			"style": layerGroup.Styles[index].Name,
+			"type":  value.Type,
 		})
 	}
 	d.Set("layers", layers)
@@ -300,7 +301,7 @@ func resourceGeoserverLayerGroupUpdate(d *schema.ResourceData, meta interface{})
 	for _, value := range d.Get("layers").([]interface{}) {
 		v := value.(map[string]interface{})
 		layers = append(layers, &gs.LayerRef{
-			Type: "layer",
+			Type: v["type"].(string),
 			Name: v["name"].(string),
 		})
 		styles = append(styles, &gs.StyleRef{
