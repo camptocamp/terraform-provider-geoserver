@@ -99,6 +99,18 @@ func resourceGeoserverLayerGroup() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
+						"type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Default:  "layer",
+							ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
+								v := val.(string)
+								if v != "layer" && v != "layerGroup" {
+									errs = append(errs, fmt.Errorf("%q must be 'layer' or 'layerGroup', got: %q", key, v))
+								}
+								return
+							},
+						},
 					},
 				},
 			},
@@ -140,7 +152,7 @@ func resourceGeoserverLayerGroupCreate(d *schema.ResourceData, meta interface{})
 	for _, value := range d.Get("layers").([]interface{}) {
 		v := value.(map[string]interface{})
 		layers = append(layers, &gs.LayerRef{
-			Type: "layer",
+			Type: v["type"].(string),
 			Name: v["name"].(string),
 		})
 		styles = append(styles, &gs.StyleRef{
