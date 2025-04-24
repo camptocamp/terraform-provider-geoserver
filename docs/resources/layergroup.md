@@ -130,6 +130,10 @@ Required:
 - `name` (String)
 - `style` (String)
 
+Optional:
+
+- `type` (String)
+
 
 <a id="nestedblock--metadatalink"></a>
 ### Nested Schema for `metadatalink`

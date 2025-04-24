@@ -3,16 +3,14 @@ page_title: "Provider: GeoServer - How to force feature type"
 description: |-
   A solution to trigger a feature type when working without explicit attributes
 ---
-# How to force feature type
 
-## The problem
+# The problem
 
 When you declare featuretype resource into your terraform module and you don't explicitely declare the attributes available in your feature type, the GeoServer resource won't be updated if the underlying data structure is changed.
 
-## The solution
+# The solution
 
 The solution to manage is the following:
-
 - Declare a input variable to be able to provide some version information into terraform
 - Use a `terraform_data` resource to track into the terraform state how the version evolves over time
 - Add a trigger on the related resources to update them when the version changes
