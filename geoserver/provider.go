@@ -52,6 +52,7 @@ func Provider() terraform.ResourceProvider {
 			"geoserver_gwc_file_blobstore": resourceGwcFileBlobstore(),
 			"geoserver_gwc_gridset":        resourceGwcGridset(),
 			"geoserver_gwc_wms_layer":      resourceGwcWmsLayer(),
+			"geoserver_gwc_disk_quota":     resourceGwcDiskQuota(),
 			"geoserver_wms_store":          resourceGeoserverWmsStore(),
 			"geoserver_wms_layer":          resourceGeoserverWmsLayer(),
 			"geoserver_url_check":          resourceGeoserverUrlCheck(),
