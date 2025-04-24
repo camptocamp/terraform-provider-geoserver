@@ -71,8 +71,8 @@ github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d h1:xDfNPAt8lFiC1U
 github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d/go.mod h1:6QX/PXZ00z/TKoufEY6K/a0k6AhaJrQKdFe6OfVXsa4=
 github.com/bgentry/speakeasy v0.1.0 h1:ByYyxL9InA1OWqxJqqp2A5pYHUrCiAL6K3J+LKSsQkY=
 github.com/bgentry/speakeasy v0.1.0/go.mod h1:+zsyZBPWlz7T6j88CTgSN5bM796AkVf0kBD4zp0CCIs=
-github.com/camptocamp/go-geoserver v0.0.0-20250211100128-4caeb1bda37c h1:U4GG+WW1AhSVPRJ5wfWuoqBotwgrRU7EniiABNz+v9M=
-github.com/camptocamp/go-geoserver v0.0.0-20250211100128-4caeb1bda37c/go.mod h1:z5s93Ll45psIP40hoVWpQPservcqeX4MOQDLV+Ys4rE=
+github.com/camptocamp/go-geoserver v0.0.0-20250410194648-0f376482dc23 h1:ZuYhsNEj7+L0eIYcLFLy0k4q4m1S/UJhXs1WGw9S00E=
+github.com/camptocamp/go-geoserver v0.0.0-20250410194648-0f376482dc23/go.mod h1:bvJg0QODwugVs33g0PUEhnj2VI3CGtV5konlAn2Y9DU=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/cheggaaa/pb v1.0.27/go.mod h1:pQciLPpbU0oxA0h+VJYYLxO+XeDQb5pZijXscXHm81s=
 github.com/chzyer/logex v1.1.10/go.mod h1:+Ywpsq7O8HXn0nuIou7OrIPyXbp3wmkHB+jjWRnGsAI=

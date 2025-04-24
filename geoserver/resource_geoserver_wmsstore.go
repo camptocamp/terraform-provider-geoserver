@@ -89,17 +89,16 @@ func resourceGeoserverWmsStoreCreate(d *schema.ResourceData, meta interface{}) e
 	client := meta.(*Config).GeoserverClient()
 
 	workspaceName := d.Get("workspace_name").(string)
-	datastore := &gs.WmsStore{
-		Name:                       d.Get("name").(string),
-		Description:                d.Get("description").(string),
-		Enabled:                    d.Get("enabled").(bool),
-		Default:                    d.Get("default").(bool),
-		DisableConnectionOnFailure: d.Get("disable_connection_on_failure").(bool),
-		CapabilitiesUrl:            d.Get("capabilities_url").(string),
-		MaxConnections:             d.Get("max_connections").(int),
-		ReadTimeOut:                d.Get("read_timeout").(int),
-		ConnectTimeOut:             d.Get("connection_timeout").(int),
-	}
+	datastore := gs.NewWmsStore()
+	datastore.Name = d.Get("name").(string)
+	datastore.Description = d.Get("description").(string)
+	datastore.Enabled = d.Get("enabled").(bool)
+	datastore.Default = d.Get("default").(bool)
+	datastore.DisableConnectionOnFailure = d.Get("disable_connection_on_failure").(bool)
+	datastore.CapabilitiesUrl = d.Get("capabilities_url").(string)
+	datastore.MaxConnections = d.Get("max_connections").(int)
+	datastore.ReadTimeOut = d.Get("read_timeout").(int)
+	datastore.ConnectTimeOut = d.Get("connection_timeout").(int)
 
 	err := client.CreateWmStore(workspaceName, datastore)
 	if err != nil {
@@ -171,17 +170,18 @@ func resourceGeoserverWmsStoreUpdate(d *schema.ResourceData, meta interface{}) e
 
 	client := meta.(*Config).GeoserverClient()
 
-	err := client.UpdateWmsStore(workspaceName, datastoreName, &gs.WmsStore{
-		Name:                       d.Get("name").(string),
-		Description:                d.Get("description").(string),
-		Enabled:                    d.Get("enabled").(bool),
-		Default:                    d.Get("default").(bool),
-		DisableConnectionOnFailure: d.Get("disable_connection_on_failure").(bool),
-		CapabilitiesUrl:            d.Get("capabilities_url").(string),
-		MaxConnections:             d.Get("max_connections").(int),
-		ReadTimeOut:                d.Get("read_timeout").(int),
-		ConnectTimeOut:             d.Get("connection_timeout").(int),
-	})
+	datastore := gs.NewWmsStore()
+	datastore.Name = d.Get("name").(string)
+	datastore.Description = d.Get("description").(string)
+	datastore.Enabled = d.Get("enabled").(bool)
+	datastore.Default = d.Get("default").(bool)
+	datastore.DisableConnectionOnFailure = d.Get("disable_connection_on_failure").(bool)
+	datastore.CapabilitiesUrl = d.Get("capabilities_url").(string)
+	datastore.MaxConnections = d.Get("max_connections").(int)
+	datastore.ReadTimeOut = d.Get("read_timeout").(int)
+	datastore.ConnectTimeOut = d.Get("connection_timeout").(int)
+
+	err := client.UpdateWmsStore(workspaceName, datastoreName, datastore)
 	if err != nil {
 		return err
 	}
@@ -207,3 +207,4 @@ func resourceGeoserverWmsStoreImport(d *schema.ResourceData, meta interface{}) (
 
 	return []*schema.ResourceData{d}, nil
 }
+
