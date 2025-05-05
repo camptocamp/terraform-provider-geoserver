@@ -26,7 +26,7 @@ func resourceGeoserverWmtsLayer() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"wmtsstore_name": {
+			"wmts_store_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
@@ -153,7 +153,7 @@ func resourceGeoserverWmtsLayerCreate(d *schema.ResourceData, meta interface{}) 
 	client := meta.(*Config).GeoserverClient()
 
 	workspaceName := d.Get("workspace_name").(string)
-	datastoreName := d.Get("wmsstore_name").(string)
+	datastoreName := d.Get("wmts_store_name").(string)
 
 	var metadata []*gs.WmtsLayerMetadata
 	for key, value := range d.Get("metadata").(map[string]interface{}) {
@@ -229,7 +229,7 @@ func resourceGeoserverWmtsLayerRead(d *schema.ResourceData, meta interface{}) er
 		return nil
 	}
 	d.Set("workspace_name", workspaceName)
-	d.Set("wmsstore_name", datastoreName)
+	d.Set("wmts_store_name", datastoreName)
 	d.Set("name", WmtsLayer.Name)
 	d.Set("native_name", WmtsLayer.NativeName)
 	d.Set("enabled", WmtsLayer.Enabled)
@@ -353,7 +353,7 @@ func resourceGeoserverWmtsLayerImport(d *schema.ResourceData, meta interface{}) 
 
 	d.SetId(d.Id())
 	d.Set("workspace_name", workspaceName)
-	d.Set("wmtsstore_name", datastoreName)
+	d.Set("wmts_store_name", datastoreName)
 	d.Set("name", WmtsLayerName)
 
 	log.Printf("[INFO] Importing Geoserver WmtsLayer `%s` from workspace `%s`", datastoreName, workspaceName)

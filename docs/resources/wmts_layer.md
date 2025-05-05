@@ -43,7 +43,7 @@ description: |-
 - `native_crs_class` (String)
 - `native_crs_value` (String)
 - `title` (String)
-- `wmtsstore_name` (String)
+- `wmts_store_name` (String)
 
 ### Read-Only
 
