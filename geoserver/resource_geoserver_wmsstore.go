@@ -207,4 +207,3 @@ func resourceGeoserverWmsStoreImport(d *schema.ResourceData, meta interface{}) (
 
 	return []*schema.ResourceData{d}, nil
 }
-
