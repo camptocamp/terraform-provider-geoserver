@@ -27,7 +27,8 @@ func resourceGwcWmsLayer() *schema.Resource {
 			},
 			"blobstore_id": {
 				Type:        schema.TypeString,
-				Required:    true,
+				Optional:    true,
+				Default:     "",
 				Description: "Blobstore to use for storing the tiles.",
 			},
 			"wms_url": {
