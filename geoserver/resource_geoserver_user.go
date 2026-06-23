@@ -34,7 +34,6 @@ func resourceGeoserverUser() *schema.Resource {
 			"enabled": {
 				Type:        schema.TypeBool,
 				Required:    true,
-				Default:     true,
 				Description: "Is the user account enabled?",
 			},
 			"password": {
