@@ -49,5 +49,3 @@ resource "geoserver_gwc_S3_blobstore" "s3_blobstore" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
-
-

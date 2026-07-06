@@ -50,5 +50,3 @@ resource "geoserver_wms_store" "geoplateforme" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
-
-

@@ -34,5 +34,3 @@ resource "geoserver_resource" "osm_pregen_cfg_file" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
-
-

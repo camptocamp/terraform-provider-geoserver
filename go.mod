@@ -3,7 +3,7 @@ module github.com/camptocamp/terraform-provider-geoserver
 go 1.23
 
 require (
-	github.com/camptocamp/go-geoserver v0.0.0-20260629081402-64629d964fc5
+	github.com/camptocamp/go-geoserver v0.0.0-20260706095209-3f72f77a72d3
 	github.com/hashicorp/terraform-plugin-sdk v1.17.2
 )
 

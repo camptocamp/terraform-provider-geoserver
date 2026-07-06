@@ -75,5 +75,3 @@ resource "geoserver_wms_layer" "plan_ign" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
-
-

@@ -42,5 +42,3 @@ Required:
 - `layer` (String)
 - `quota_units` (String) The type of unit quantified by value. Authorized values are : B, KiB, MiB, GiB, TiB
 - `quota_value` (Number) Numeric value for layer quota.
-
-
