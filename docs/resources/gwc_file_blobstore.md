@@ -36,5 +36,3 @@ resource "geoserver_gwc_file_blobstore" "file_blobstore" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
-
-

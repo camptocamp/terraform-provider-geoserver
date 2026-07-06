@@ -143,5 +143,3 @@ Required:
 - `content` (String)
 - `metadatatype` (String)
 - `type` (String)
-
-

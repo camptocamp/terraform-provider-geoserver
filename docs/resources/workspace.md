@@ -33,5 +33,3 @@ resource "geoserver_workspace" "my_workspace" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
-
-

@@ -41,5 +41,3 @@ resource "geoserver_style" "osm_all_regions" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
-
-

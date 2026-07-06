@@ -24,3 +24,15 @@ resource "geoserver_gwc_wms_layer" "nexsis_fdp_osm" {
     metatile_width=4
     expire_duration_clients=3600
 }
+
+# Example using default GWC store
+resource "geoserver_gwc_wms_layer" "ign_orthophotos" {
+    name = "ign_orthophotos"
+    wms_url="https://wxs.ign.fr/essentiels/geoportail/r/wms?SERVICE=WMS"
+    wms_layer="ORTHOIMAGERY.ORTHOPHOTOS"
+    mime_formats=["image/png","image/jpeg"]
+    grid_subsets=[geoserver_gwc_gridset.gridset_3857.name]
+    metatile_height=4
+    metatile_width=4
+    expire_duration_clients=3600
+}

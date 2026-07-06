@@ -171,5 +171,3 @@ Required:
 
 - `denominator` (Number) Scale denominator
 - `name` (String) Name of the level (0,1,2,...)
-
-

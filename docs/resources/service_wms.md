@@ -61,5 +61,3 @@ Manage global WMS configuration. The configuration is a singleton so Create is s
 ### Read-Only
 
 - `id` (String) The ID of this resource.
-
-
