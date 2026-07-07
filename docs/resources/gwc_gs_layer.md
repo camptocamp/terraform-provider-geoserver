@@ -15,7 +15,7 @@ description: |-
 ```terraform
 resource "geoserver_gwc_gs_layer" "basemap" {
     name = "my_workspace::my_basemap"
-    id = "LayerGroupInfo-01KW94WAF9DH2DEHSVN4QCE7ZT"
+    layer_id = "LayerGroupInfo-01KW94WAF9DH2DEHSVN4QCE7ZT"
     blobstore_id = geoserver_gwc_S3_blobstore.s3_blobstore.blobstore_id
     mime_formats=["image/png","image/jpeg"]
     grid_subsets=[geoserver_gwc_gridset.gridset_3857.name]
@@ -44,7 +44,11 @@ resource "geoserver_gwc_gs_layer" "basemap" {
 - `expire_duration_cache` (Number) Server cache expire duration. Default to 0.
 - `expire_duration_clients` (Number) Client cache expire duration. Default to 0.
 - `gutter_size` (Number) Size of the gutter to use for the meta-tiles. Default to 0.
-- `id` (String) Internal id of the GeoServer layer.
+- `layer_id` (String) Internal id of the GeoServer layer.
+
+### Read-Only
+
+- `id` (String) The ID of this resource.
 
 <a id="nestedblock--grid_subset"></a>
 ### Nested Schema for `grid_subset`
