@@ -25,7 +25,7 @@ func resourceGwcGsLayer() *schema.Resource {
 				Required:    true,
 				Description: "Name of the cache layer. Use as resource id.",
 			},
-			"id": {
+			"layer_id": {
 				Type:        schema.TypeString,
 				Optional:    true,
 				Default:     "",
@@ -150,7 +150,7 @@ func resourceGwcGsLayerCreate(d *schema.ResourceData, meta interface{}) error {
 	gsLayer := &gs.GwcGsLayer{
 		Name:                 layerName,
 		Enabled:              d.Get("enabled").(bool),
-		Id:                   d.Get("id").(string),
+		Id:                   d.Get("layer_id").(string),
 		BlobStoreId:          d.Get("blobstore_id").(string),
 		MimeFormats:          gs.MimeFormats{Formats: mimeFormats},
 		GridSubsets:          gridSubsets,
@@ -191,7 +191,7 @@ func resourceGwcGsLayerRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("name", gsLayerName)
 	d.Set("enabled", gsLayer.Enabled)
 	d.Set("blobstore_id", gsLayer.BlobStoreId)
-	d.Set("id", gsLayer.Id)
+	d.Set("layer_id", gsLayer.Id)
 	d.Set("expire_duration_cache", gsLayer.ExpireCacheDuration)
 	d.Set("expire_duration_clients", gsLayer.ExpireClientDuration)
 	d.Set("gutter_size", gsLayer.GutterSize)
@@ -274,7 +274,7 @@ func resourceGwcGsLayerUpdate(d *schema.ResourceData, meta interface{}) error {
 
 	err := client.UpdateGwcGsLayer(gsLayerName, &gs.GwcGsLayer{
 		Name:                 gsLayerName,
-		Id:                   d.Get("id").(string),
+		Id:                   d.Get("layer_id").(string),
 		Enabled:              d.Get("enabled").(bool),
 		BlobStoreId:          d.Get("blobstore_id").(string),
 		MimeFormats:          gs.MimeFormats{Formats: mimeFormats},
